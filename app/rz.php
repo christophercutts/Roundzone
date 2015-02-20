@@ -21,7 +21,7 @@ class RoundZone {
         if(!$route = (new UrlRoutes)->findRoute(trim($_SERVER['REQUEST_URI'], '/'))) {
              $route = trim($_SERVER['REQUEST_URI'], '/');
         }
-        var_dump($route);
+
         $route = explode('/', $route);
         RoundZone::route($route);
 

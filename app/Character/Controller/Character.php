@@ -17,8 +17,4 @@ class Character_Controller_Character extends Rz_Controller_Abstract {
         $this->loadLayout($id);
     }
 
-    function testAction() {
-
-    }
-
 }
