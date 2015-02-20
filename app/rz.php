@@ -18,11 +18,11 @@ class RoundZone {
     static private $_registry = array();
 
     static function run() {
-        /**
-         *  @TODO Get current URL route from database
-         */
-
-        $route = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+        if(!$route = (new UrlRoutes)->findRoute(trim($_SERVER['REQUEST_URI'], '/'))) {
+             $route = trim($_SERVER['REQUEST_URI'], '/');
+        }
+        var_dump($route);
+        $route = explode('/', $route);
         RoundZone::route($route);
 
     }
@@ -111,4 +111,20 @@ class RoundZone {
          return null;
      }
 
-} 
+}
+class UrlRoutes
+{
+    var $routes = array(
+        'billy' => 'character/view/12',
+        'james' => 'character/view/21'
+    );
+
+    public function findRoute($url)
+    {
+        if (isset($this->routes[$url])) {
+            return $this->routes[$url];
+        } else {
+            return false;
+        }
+    }
+}
