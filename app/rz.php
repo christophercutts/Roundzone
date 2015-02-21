@@ -29,21 +29,25 @@ class RoundZone {
 
     static function route($route) {
 
-        $controller = ucwords($route[0]) . "_Controller_" . ucwords($route[0]);
-        $action = $route[1] . "Action";
+        if(count($route) > 1) {
+            $controller = ucwords($route[0]) . "_Controller_" . ucwords($route[0]);
+            $action = $route[1] . "Action";
 
-        RoundZone::register('view', $route[0] . "/" . $route[1]);
+            RoundZone::register('view', $route[0] . "/" . $route[1]);
+            if (isset($route[2])) {
+                $actionId = $route[2];
+            } else {
+                $actionId = null;
+            }
 
-        if(isset($route[2])) {
-            $actionId = $route[2];
+            if (RoundZone::canAutoload($controller)) {
+                (new $controller)->$action($actionId);
+            } else {
+                header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+                echo "404";
+            }
         } else {
-            $actionId = null;
-        }
-
-        if(RoundZone::canAutoload($controller)) {
-            (new $controller)->$action($actionId);
-        } else {
-            header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
             echo "404";
         }
     }

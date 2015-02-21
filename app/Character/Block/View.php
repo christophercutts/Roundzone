@@ -6,16 +6,24 @@
  * Time: 22:58
  */
 
-class Character_Block_View {
+class Character_Block_View extends Rz_Block_Abstract {
+
+    var $character;
 
     function toHtml($id) {
-        $_character = RoundZone::getModel('character')->load($id);
 
-        echo "Your name is " . $_character->getName() . "<br />";
+        $this->setCharacter($id);
 
-        echo $_character->getName() . " is " . $_character->getData('age') . " years old. <br />";
+        $this->setTemplate('character/view.phtml');
+        $this->render();
 
-        echo $_character->getName() . " is a " . $_character->getData('class');
+    }
 
+    function setCharacter($id) {
+        $this->character = RoundZone::getModel('character')->load($id);
+    }
+
+    function getCharacter() {
+        return $this->character;
     }
 }
