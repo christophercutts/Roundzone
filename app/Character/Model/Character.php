@@ -6,29 +6,9 @@
  * Time: 22:18
  */
 
-class Character_Model_Character extends Rz_Model_Abstract {
+class Character_Model_Character extends Rz_Model_Db {
 
-    var $dataSource = array(
-        12 => array(
-            'name'      => 'Billy',
-            'age'       => 23,
-            'gender'    => 'Male',
-            'class'     => 'Mage'
-        ),
-        21 => array(
-            'name'      => 'James',
-            'age'       => 22,
-            'gender'    => 'Male',
-            'class'     => 'Rogue'
-        ),
-    );
-
-
-    public function load($id) {
-        $this->id = $id;
-        $this->data = $this->dataSource[$this->id];
-        return $this;
-    }
+    var $table = "character";
 
     public function getName() {
         return $this->data['name'];

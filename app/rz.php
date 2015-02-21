@@ -118,15 +118,21 @@ class RoundZone {
 }
 class UrlRoutes
 {
-    var $routes = array(
-        'billy' => 'character/view/12',
-        'james' => 'character/view/21'
-    );
 
-    public function findRoute($url)
+    public function findRoute($uri)
     {
-        if (isset($this->routes[$url])) {
-            return $this->routes[$url];
+
+        $db = new mysqli('localhost', 'roundzone', 'bneVEyqmBudCDYx3', 'roundzone');
+        if($db->connect_errno > 0){
+            die('Unable to connect to database [' . $db->connect_error . ']');
+        }
+        $statement = $db->prepare("SELECT `target_uri` FROM `url_route` WHERE `request_uri`= ?");
+        $statement->bind_param('s', $uri);
+        $statement->execute();
+        $statement->bind_result($target_uri);
+        $statement->store_result();
+        if($statement->fetch()){
+            return $target_uri;
         } else {
             return false;
         }
